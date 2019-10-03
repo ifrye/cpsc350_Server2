@@ -24,7 +24,7 @@ CREATE TABLE enrollment (
 	PRIMARY KEY (username, id)
 );
 
-GRANT SELECT, INSERT ON users to new;
-GRANT SELECT, INSERT ON workshops to new;
+GRANT SELECT, INSERT, DELETE ON users to new;
+GRANT SELECT, INSERT, DELETE ON workshops to new;
 GRANT USAGE on workshops_id_seq to new;
-GRANT SELECT, INSERT ON enrollment to new;
+GRANT SELECT, INSERT, DELETE ON enrollment to new;
