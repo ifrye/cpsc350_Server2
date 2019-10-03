@@ -19,8 +19,9 @@ CREATE TABLE workshops (
 );
 
 CREATE TABLE enrollment (
-	username text PRIMARY KEY REFERENCES users (username),
-	id integer REFERENCES workshops (id)
+	username text REFERENCES users (username),
+	id integer REFERENCES workshops (id),
+	PRIMARY KEY (username, id)
 );
 
 GRANT SELECT, INSERT ON users to new;

@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
+var dateFormat = require('dateformat');
 
 
 app.set("port", 8080);
@@ -38,9 +39,33 @@ app.get("/list-users", async (req, res) => {
 			res.json({users:response.rows});
 		}
 		}catch(err){
-			console.log("in catch");
+			console.log("in catch" + err);
 		}
 
+});
+
+app.get("/list-workshops", async (req, res) => {
+	try{
+		const template = "SELECT distinct title, day as date, location FROM workshops";
+		const response = await pool.query(template);
+		
+		let title;
+		let date;
+		let location;
+		var arr;
+
+		const workshopList = response.rows.map(function(item) {
+			title = item.title;
+			date = dateFormat(item.date, "yyyy-mm-dd");
+			location = item.location;
+			arr = {title, date, location};
+			return arr;
+		});
+		res.json({workshops: workshopList});
+	}
+	catch(err){
+		console.log("in catch" + err);
+	}
 });
 	/*
 		else{	
