@@ -198,9 +198,21 @@ app.post("/enroll", async (req, res) =>{
 			location
 		]);
 
+		//If workshop already filled
 
 		if(response3.rowCount != 0){
 			res.json({"status":"user already enrolled"});
+		}
+		
+		const template6 = "SELECT enrollment.username, enrollment.id FROM enrollment join users on enrollment.username = users.username join workshops on enrollment.id = workshops.id WHERE workshops.title = $1 AND workshops.day = $2 AND workshops.location = $3";
+		const response6 = await pool.query(template6, [
+			title,
+			date,
+			location
+		]);
+
+		if(response6.rowCount >= maxseats){
+			res.json({"status":"no seats available"});
 		}
 		else{
 			const template4 = "INSERT INTO enrollment(username, id) values ($1, $2)";
